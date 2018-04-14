@@ -69,12 +69,8 @@ var displayItemDetailMenu = function (i) {
   if (item.quantity != 0) {
     another = 'another';
   }
-  var unitProper;
-  if (item.quantity == 1) {
-    unitProper = item.unitSingular;
-  } else {
-    unitProper = item.unitPlural;
-  }
+  var unitProper = getUnitProper(i);
+  
   console.log(item.name + '\n$' + item.pricePerUnit + ' / ' + item.unitSingular);
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
   rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
@@ -101,7 +97,23 @@ var incrementItem = function (i) {
 }
 
 var displayCart = function () {
-  console.log('cart works!');
+  console.log('Your cart contains the following:');
+  for (i = 0; i < groceryItems.length; i++) {
+    var item = groceryItems[i];
+    var unitProper = getUnitProper(i);
+    console.log(item.length + ' ' + item.unit);
+  }
+}
+
+var getUnitProper = function (i) {
+  var item = groceryItems[i];
+  var unitProper;
+  if (item.quantity == 1) {
+    unitProper = item.unitSingular;
+  } else {
+    unitProper = item.unitPlural;
+  }
+  return unitProper;
 }
 
 var displayCheckoutMenu = function () {
