@@ -106,17 +106,26 @@ var displayCart = function () {
     console.log('Your cart is empty.');
     displayMainMenu();
   } else {
+    var totalPrice = 0;
     var plural = itemCount == 1 ? '' : 's'
     console.log('Your cart contains the following ' + itemCount + ' item' + plural + ':');
     groceryItems.forEach(function(item, i) {
       if (item.quantity > 0) {
         var unitProper = getUnitProper(i);
-        console.log(item.quantity + ' ' + unitProper + ' of ' + item.name);
-        itemCount += 1;
+        var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
+        console.log(item.quantity + ' ' + unitProper + ' of ' + item.name + ', $' + subtotal + ' @ ' + item.pricePerUnit + ' / ' + item.unitSingular);
+        totalPrice += parseFloat(subtotal);
       }
     });
-  }
+    var priceDisplay = totalPrice.toString();
+    priceDisplay.slice(-2, -1) == '.' ? priceDisplay += '0' : null;
 
+    console.log('Total: $' + priceDisplay);
+    // rl.question('What would you like to do?\n1) ', (answer) => {
+    //
+    // });
+
+  }
 
 }
 
