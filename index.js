@@ -70,7 +70,7 @@ var displayItemDetailMenu = function (i) {
     another = 'another';
   }
   var unitProper = getUnitProper(i);
-  
+
   console.log(item.name + '\n$' + item.pricePerUnit + ' / ' + item.unitSingular);
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
   rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
@@ -97,12 +97,27 @@ var incrementItem = function (i) {
 }
 
 var displayCart = function () {
-  console.log('Your cart contains the following:');
-  for (i = 0; i < groceryItems.length; i++) {
-    var item = groceryItems[i];
-    var unitProper = getUnitProper(i);
-    console.log(item.length + ' ' + item.unit);
+  var itemCount = 0;
+  groceryItems.forEach(function(item) {
+    itemCount += item.quantity;
+  });
+
+  if (itemCount == 0) {
+    console.log('Your cart is empty.');
+    displayMainMenu();
+  } else {
+    var plural = itemCount == 1 ? '' : 's'
+    console.log('Your cart contains the following ' + itemCount + ' item' + plural + ':');
+    groceryItems.forEach(function(item, i) {
+      if (item.quantity > 0) {
+        var unitProper = getUnitProper(i);
+        console.log(item.quantity + ' ' + unitProper + ' of ' + item.name);
+        itemCount += 1;
+      }
+    });
   }
+
+
 }
 
 var getUnitProper = function (i) {
