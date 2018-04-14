@@ -2,7 +2,7 @@
 A brief engineering exercise for Sitka Technology Group.
 
 ## Setup
-Download or clone directory. Move to the directory in the command line and run 'node index.js'.
+Download or clone directory. Move to the directory in the command line and run 'js index.js'.
 
 ## Technologies Used
  * Node.js
