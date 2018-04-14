@@ -97,7 +97,7 @@ var displayItemDetailMenu = function (i) {
 var incrementItem = function (i) {
   var item = groceryItems[i];
   groceryItems[i].quantity += 1;
-  console.log('1 ' + item.unitSingular + ' of ' + item);
+  console.log('1 ' + item.unitSingular + ' of ' + item.name + ' added to cart.');
 }
 
 var displayCart = function () {
