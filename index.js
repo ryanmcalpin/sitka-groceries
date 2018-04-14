@@ -107,13 +107,15 @@ var displayCart = function () {
         var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
         console.log(item.quantity + ' ' + unitProper + ' of ' + item.name + ', $' + subtotal + ' @ ' + item.pricePerUnit + ' / ' + item.unitSingular);
         totalPrice += parseFloat(subtotal);
+        // console.log(typeof totalPrice);
+        totalPriceFormatted = totalPrice.toFixed(2);
       }
     });
-    var priceDisplay = totalPrice.toString();
+    var priceDisplay = totalPriceFormatted.toString();
     priceDisplay.slice(-2, -1) == '.' ? priceDisplay += '0' : null;
 
     console.log('Total: $' + priceDisplay);
-    rl.question('What would you like to do?\n1) Sort by name\n2) Sort by subtotal price\n3) Remove item\n4) Clear cart\n5) Go back\n', (answer) => {
+    rl.question('What would you like to do?\n1) Sort by name\n2) Sort by subtotal price\n3) Remove a single item unit\n4) Clear cart\n5) Go back\n', (answer) => {
       switch (answer) {
         case "1":
 
@@ -122,7 +124,7 @@ var displayCart = function () {
 
           break;
         case "3":
-
+          removeItemQuery();
           break;
         case "4":
           groceryItems.forEach((item, i) => {
@@ -137,6 +139,32 @@ var displayCart = function () {
 
   }
 
+}
+
+var removeItemQuery = function () {
+  var question = 'Which item?\n';
+  var currentItems = [];
+  groceryItems.forEach((item, i) => {
+    if (item.quantity > 0) {
+      question = question.concat((i + 1) + ') ' + item.name + ' (' + item.quantity + ')\n');
+      item.index = i;
+      currentItems.push(item);
+    }
+  });
+
+  removeItem(question, currentItems);
+}
+
+var removeItem = function (question, items) {
+  rl.question(question, (answer) => {
+    items.forEach((item, i) => {
+      if (i == item.index) {
+        console.log('truuu ' + item.name);
+      } else {
+        console.log('faallse ' + item.name);
+      }
+    });
+  });
 }
 
 var incrementItem = function (i) {
