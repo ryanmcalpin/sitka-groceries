@@ -144,11 +144,13 @@ var displayCart = function () {
 var removeItemQuery = function () {
   var question = 'Which item?\n';
   var currentItems = [];
+  var listNumber = 1;
   groceryItems.forEach((item, i) => {
     if (item.quantity > 0) {
-      question = question.concat((i + 1) + ') ' + item.name + ' (' + item.quantity + ')\n');
+      question = question.concat((listNumber) + ') ' + item.name + ' (' + item.quantity + ')\n');
       item.index = i;
       currentItems.push(item);
+      listNumber++;
     }
   });
 
