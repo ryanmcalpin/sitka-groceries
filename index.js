@@ -78,8 +78,26 @@ var displayItemDetailMenu = function (i) {
   console.log(item.name + '\n$' + item.pricePerUnit + ' / ' + item.unitSingular);
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
   rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
-    console.log(answer);
+    switch (answer) {
+      case "1":
+        console.log(i);
+        incrementItem(i);
+        displayItemDetailMenu(i);
+        break;
+      case "2":
+        displayShopMenu();
+        break;
+      default:
+        console.log('Invalid option!');
+        displayItemDetailMenu(i);
+    }
   })
+}
+
+var incrementItem = function (i) {
+  var item = groceryItems[i];
+  groceryItems[i].quantity += 1;
+  console.log('1 ' + item.unitSingular + ' of ' + item);
 }
 
 var displayCart = function () {
