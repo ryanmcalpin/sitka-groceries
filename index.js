@@ -7,9 +7,9 @@ function GroceryItem(name, unitSingular, unitPlural, quantity, pricePerUnit) {
   this.quantity = quantity;
   this.pricePerUnit = pricePerUnit;
 }
-var bananas = new GroceryItem("Bananas", "bunch", "bunches", 0, "2.19");
-var coffee = new GroceryItem("Coffee", "pound", "pounds", 0, "5.99");
-var tea = new GroceryItem("Tea", "box", "boxes", 0, "4.35");
+var bananas = new GroceryItem("Bananas", "bunch", "bunches", 0, 2.19);
+var coffee = new GroceryItem("Coffee", "pound", "pounds", 0, 5.99);
+var tea = new GroceryItem("Tea", "box", "boxes", 0, 4.35);
 var groceryItems = [bananas, coffee, tea];
 
 const rl = readline.createInterface({
