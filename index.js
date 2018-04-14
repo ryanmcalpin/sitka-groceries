@@ -18,7 +18,8 @@ const rl = readline.createInterface({
 });
 
 var displayMainMenu = function () {
-  rl.question('Choose an option below.\n1) Shop\n2) View cart\n3) Checkout\n4) Exit\n', (answer) => {
+  var totalItems = getTotalItemCount();
+  rl.question('Choose an option below.\n1) Shop\n2) View cart (' + totalItems + ')\n3) Checkout\n4) Exit\n', (answer) => {
     switch(answer) {
       case "1":
         displayShopMenu();
@@ -90,17 +91,8 @@ var displayItemDetailMenu = function (i) {
   })
 }
 
-var incrementItem = function (i) {
-  var item = groceryItems[i];
-  groceryItems[i].quantity += 1;
-  console.log('1 ' + item.unitSingular + ' of ' + item.name + ' added to cart.');
-}
-
 var displayCart = function () {
-  var itemCount = 0;
-  groceryItems.forEach(function(item) {
-    itemCount += item.quantity;
-  });
+  var itemCount = getTotalItemCount();
 
   if (itemCount == 0) {
     console.log('Your cart is empty.');
@@ -109,7 +101,7 @@ var displayCart = function () {
     var totalPrice = 0;
     var plural = itemCount == 1 ? '' : 's'
     console.log('Your cart contains the following ' + itemCount + ' item' + plural + ':');
-    groceryItems.forEach(function(item, i) {
+    groceryItems.forEach((item, i) => {
       if (item.quantity > 0) {
         var unitProper = getUnitProper(i);
         var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
@@ -121,12 +113,44 @@ var displayCart = function () {
     priceDisplay.slice(-2, -1) == '.' ? priceDisplay += '0' : null;
 
     console.log('Total: $' + priceDisplay);
-    // rl.question('What would you like to do?\n1) ', (answer) => {
-    //
-    // });
+    rl.question('What would you like to do?\n1) Sort by name\n2) Sort by subtotal price\n3) Remove item\n4) Clear cart\n5) Go back\n', (answer) => {
+      switch (answer) {
+        case "1":
+
+          break;
+        case "2":
+
+          break;
+        case "3":
+
+          break;
+        case "4":
+          groceryItems.forEach((item, i) => {
+            item.quantity = 0;
+          });
+          displayCart();
+          break;
+        default:
+          displayMainMenu();
+      }
+    });
 
   }
 
+}
+
+var incrementItem = function (i) {
+  var item = groceryItems[i];
+  groceryItems[i].quantity += 1;
+  console.log('1 ' + item.unitSingular + ' of ' + item.name + ' added to cart.');
+}
+
+var getTotalItemCount = function () {
+  var itemCount = 0;
+  groceryItems.forEach((item) => {
+    itemCount += item.quantity;
+  });
+  return itemCount;
 }
 
 var getUnitProper = function (i) {
