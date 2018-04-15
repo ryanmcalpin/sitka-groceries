@@ -142,7 +142,7 @@ var displayCart = function () {
 }
 
 var removeItemQuery = function () {
-  var question = 'Which item?\n';
+  var question = 'Remove which item?\n';
   var currentItems = [];
   var listNumber = 1;
   groceryItems.forEach((item, i) => {
@@ -153,19 +153,21 @@ var removeItemQuery = function () {
       listNumber++;
     }
   });
-
-  removeItem(question, currentItems);
+  question += (currentItems.length + 1) + ') Go back\n'
+  currentItems.length == 0 ? displayCart() : removeItem(question, currentItems);
 }
 
 var removeItem = function (question, items) {
+  console.log(items.length);
   rl.question(question, (answer) => {
-    items.forEach((item, i) => {
-      if (i == item.index) {
-        console.log('truuu ' + item.name);
-      } else {
-        console.log('faallse ' + item.name);
-      }
-    });
+    if ((parseInt(answer) - 1) == items.length) {
+      displayCart();
+    } else {
+      var item = groceryItems[items[parseInt(answer)-1].index];
+      item.quantity -= 1;
+      console.log('You now have ' + item.quantity + ' ' + item.name + '.');
+      removeItemQuery();
+    }
   });
 }
 
