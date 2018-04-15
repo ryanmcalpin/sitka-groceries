@@ -41,6 +41,7 @@ var displayMainMenu = function () {
   });
 }
 
+// refactor to account for variable groceryItems length
 var displayShopMenu = function () {
   console.log('Choose an item to view details and options.');
   rl.question('1) Bananas\n2) Coffee\n3) Tea\n4) Go back\n', (answer) => {
@@ -107,7 +108,6 @@ var displayCart = function () {
         var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
         console.log(item.quantity + ' ' + unitProper + ' of ' + item.name + ', $' + subtotal + ' @ ' + item.pricePerUnit + ' / ' + item.unitSingular);
         totalPrice += parseFloat(subtotal);
-        // console.log(typeof totalPrice);
         totalPriceFormatted = totalPrice.toFixed(2);
       }
     });
@@ -118,10 +118,12 @@ var displayCart = function () {
     rl.question('What would you like to do?\n1) Sort by name\n2) Sort by subtotal price\n3) Remove a single item unit\n4) Clear cart\n5) Go back\n', (answer) => {
       switch (answer) {
         case "1":
-
+          console.log("sort!");
+          displayCart();
           break;
         case "2":
-
+          console.log("sort!");
+          displayCart();
           break;
         case "3":
           removeItemQuery();
@@ -132,13 +134,15 @@ var displayCart = function () {
           });
           displayCart();
           break;
-        default:
+        case "5":
           displayMainMenu();
+          break;
+        default:
+        console.log('Invalid option.');
+        displayCart();
       }
     });
-
   }
-
 }
 
 var removeItemQuery = function () {
