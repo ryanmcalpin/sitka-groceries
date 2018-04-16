@@ -82,22 +82,6 @@ var displayItemDetailMenu = function (i) {
       displayItemDetailMenu(i);
     }
   });
-
-  // rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
-  //   switch (answer) {
-  //     case "1":
-  //       console.log(i);
-  //       incrementItem(i);
-  //       displayItemDetailMenu(i);
-  //       break;
-  //     case "2":
-  //       displayShopMenu();
-  //       break;
-  //     default:
-  //       console.log('Invalid option!');
-  //       displayItemDetailMenu(i);
-  //   }
-  // })
 }
 
 var displayCart = function () {
