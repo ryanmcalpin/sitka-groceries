@@ -225,18 +225,28 @@ var displayCheckoutMenu = function (total) {
   });
 }
 
+// refactor balance to be global variable
 var displayCashMenu = function (total) {
   rl.question('Enter dollar amount or \"b\" to go back.\n', (answer) => {
-    cashPaid = parseInt(answer);
+    var cashPaid = parseFloat(answer);
     if (answer == "b") {
       displayCheckoutMenu(total);
-    } else if (isNaN(cashPaid) || cashPaid <= 0) {
+    } else if (isNaN(cashPaid) || cashPaid <= 0 || answer.split(".").length > 1 && answer.split(".")[1].length > 2) {
       console.log('Invalid option!');
       displayCashMenu(total);
     } else {
-      var balance = total - cashPaid;
+      var balance = (total - cashPaid).toFixed(2);
       if (balance < 0) {
-        console.log('Your change is $' + (balance * -1).toFixed(2) + '.');
+        console.log('Thank you! Your change is $' + (balance * -1).toFixed(2) + '.');
+        removeAllItems();
+        displayMainMenu();
+      } else if (balance > 0) {
+        console.log('Your new balance is $' + balance + '.');
+        displayCashMenu(balance);
+      } else {
+        console.log('Thank you!');
+        removeAllItems();
+        displayMainMenu();
       }
     }
   });
