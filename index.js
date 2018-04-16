@@ -10,7 +10,7 @@ function GroceryItem(name, unitSingular, unitPlural, quantity, pricePerUnit) {
 var bananas = new GroceryItem("Bananas", "bunch", "bunches", 0, 2.19);
 var coffee = new GroceryItem("Coffee", "pound", "pounds", 0, 5.99);
 var tea = new GroceryItem("Tea", "box", "boxes", 0, 4.35);
-var groceryItems = [bananas, coffee, tea];
+var groceryItems = [bananas, tea, coffee];
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -18,6 +18,7 @@ const rl = readline.createInterface({
 });
 
 var balance = 0;
+var sortedCartItems = [];
 
 var displayMainMenu = function () {
   var totalItems = getTotalItemCount();
@@ -27,7 +28,7 @@ var displayMainMenu = function () {
         displayShopMenu();
         break;
       case "2":
-        displayCart();
+        displayCart(false);
         break;
       case "3":
         console.log('Goodbye!');
@@ -85,7 +86,7 @@ var displayItemDetailMenu = function (i) {
   });
 }
 
-var displayCart = function () {
+var displayCart = function (sorted) {
   var itemCount = getTotalItemCount();
   var plural = itemCount == 1 ? '' : 's';
 
@@ -94,7 +95,8 @@ var displayCart = function () {
     displayMainMenu();
   } else {
     console.log('Your cart contains the following ' + itemCount + ' item' + plural + ':');
-    groceryItems.forEach((item, i) => {
+    var items = sorted ? sorted : groceryItems;
+    items.forEach((item, i) => {
       if (item.quantity > 0) {
         var unitProper = getUnitProper(i);
         var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
@@ -112,29 +114,36 @@ var displayCart = function () {
           displayCheckoutMenu(totalPriceFormatted);
           break;
         case "2":
-          console.log("sort!");
-          displayCart();
+          sortCartItems("name");
           break;
         case "3":
-          console.log("sort!");
-          displayCart();
+          sortCartItems("price");
           break;
         case "4":
           removeItemQuery();
           break;
         case "5":
           removeAllItems();
-          displayCart();
+          displayCart(sort);
           break;
         case "6":
           displayMainMenu();
           break;
         default:
         console.log('Invalid option.');
-        displayCart();
+        displayCart(sort);
       }
     });
   }
+}
+
+var sortCartItems = function (type) {
+  var sortedCart = groceryItems.sort(compareNames);
+  displayCart(sortedCart);
+}
+
+var compareNames = function (a, b) {
+   return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
 }
 
 var calculateTotalPrice = function () {
@@ -161,14 +170,14 @@ var removeItemQuery = function () {
     }
   });
   question += (currentItems.length + 1) + ') Go back\n'
-  currentItems.length == 0 ? displayCart() : removeItem(question, currentItems);
+  currentItems.length == 0 ? displayCart(false) : removeItem(question, currentItems);
 }
 
 var removeItem = function (question, items) {
   rl.question(question, (answer) => {
     var answerInt = parseInt(answer);
     if (answerInt == items.length + 1) {
-      displayCart();
+      displayCart(false);
     } else if (answerInt > items.length + 1) {
       console.log('Invalid option.');
       removeItem(question, items);
@@ -223,7 +232,7 @@ var displayCheckoutMenu = function (total) {
         displayCardMenu(total);
         break;
       case "3":
-        displayCart();
+        displayCart(false);
         break;
       default:
         displayCheckoutMenu(total);

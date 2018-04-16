@@ -12,6 +12,11 @@ Download or clone directory. Move to the directory in the command line and run '
 ## Approach
 I chose Node and npm for an easy setup. I chose the 'readline' package for easy command line input.
 
+## Improvements
+* Needs a global balance variable for when a user pays a partial amount of total.
+* Could have more realistic credit/debit card input.
+* Allow removing custom amount of units from cart.
+
 ## Legal
 Copyright (c) 2017 Copyright Ryan McAlpin All Rights Reserved.<br/>
 This application is licensed under the MIT license.
