@@ -17,6 +17,8 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
+var balance = 0;
+
 var displayMainMenu = function () {
   var totalItems = getTotalItemCount();
   rl.question('Choose an option below.\n1) Shop\n2) View cart (' + totalItems + ')\n3) Exit\n', (answer) => {
@@ -72,7 +74,7 @@ var displayItemDetailMenu = function (i) {
   rl.question('Enter the number of ' + item.unitPlural + ' you would like to add, or enter \"b\" to go back.\n', (answer) => {
     var answerInt = parseInt(answer);
     if (answer == "b") {
-      displayMainMenu();
+      displayShopMenu();
     } else if (!isNaN(parseInt(answer)) && answerInt > 0) {
       incrementItem(i, answerInt);
       displayItemDetailMenu(i);
@@ -85,23 +87,21 @@ var displayItemDetailMenu = function (i) {
 
 var displayCart = function () {
   var itemCount = getTotalItemCount();
+  var plural = itemCount == 1 ? '' : 's';
 
   if (itemCount == 0) {
     console.log('Your cart is empty.');
     displayMainMenu();
   } else {
-    var totalPrice = 0;
-    var plural = itemCount == 1 ? '' : 's'
     console.log('Your cart contains the following ' + itemCount + ' item' + plural + ':');
     groceryItems.forEach((item, i) => {
       if (item.quantity > 0) {
         var unitProper = getUnitProper(i);
         var subtotal = (item.quantity * item.pricePerUnit).toFixed(2);
         console.log(item.quantity + ' ' + unitProper + ' of ' + item.name + ', $' + subtotal + ' @ ' + item.pricePerUnit + ' / ' + item.unitSingular);
-        totalPrice += parseFloat(subtotal);
-        totalPriceFormatted = totalPrice.toFixed(2);
       }
     });
+    var totalPriceFormatted = calculateTotalPrice();
     var priceDisplay = totalPriceFormatted.toString();
     priceDisplay.slice(-2, -1) == '.' ? priceDisplay += '0' : null;
 
@@ -135,6 +135,17 @@ var displayCart = function () {
       }
     });
   }
+}
+
+var calculateTotalPrice = function () {
+  var totalPrice = 0;
+  groceryItems.forEach((item, i) => {
+    if (item.quantity > 0) {
+      var subtotal = item.pricePerUnit * item.quantity;
+      totalPrice += parseFloat(subtotal);
+    }
+  });
+  return totalPrice.toFixed(2);
 }
 
 var removeItemQuery = function () {
