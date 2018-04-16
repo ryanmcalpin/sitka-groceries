@@ -69,7 +69,6 @@ var displayItemDetailMenu = function (i) {
   console.log(item.name + '\n$' + item.pricePerUnit + ' / ' + item.unitSingular);
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
 
-  // refactor to to allow adding an inputed number of units
   rl.question('Enter the number of ' + item.unitPlural + ' you would like to add, or enter \"b\" to go back.\n', (answer) => {
     var answerInt = parseInt(answer);
     if (answer == "b") {
