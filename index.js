@@ -38,27 +38,41 @@ var displayMainMenu = function () {
   });
 }
 
-// refactor to account for variable groceryItems length
 var displayShopMenu = function () {
   console.log('Choose an item to view details and options.');
-  rl.question('1) Bananas\n2) Coffee\n3) Tea\n4) Go back\n', (answer) => {
-    switch (answer) {
-      case "1":
-        displayItemDetailMenu(parseInt(answer) - 1);
-        break;
-      case "2":
-        displayItemDetailMenu(parseInt(answer) - 1);
-        break;
-      case "3":
-        displayItemDetailMenu(parseInt(answer) - 1);
-        break;
-      case "4":
-          displayMainMenu();
-        break;
-      default:
-        console.log('Invalid option!');
-        displayShopMenu();
+  var question = "";
+  groceryItems.forEach((item, i) => {
+    question += ((i + 1) + ') ' + item.name + '\n');
+  });
+  question += (groceryItems.length + 1) + ') Go back\n'
+  rl.question(question, (answer) => {
+    var answerInt = parseInt(answer);
+    if (answerInt == groceryItems.length + 1) {
+      displayMainMenu()
+    } else if (!isNaN(answerInt)) {
+      displayItemDetailMenu(answer - 1)
+    } else {
+      console.log('Invalid option!');
+      displayShopMenu();
     }
+
+    // switch (answer) {
+    //   case "1":
+    //     displayItemDetailMenu(parseInt(answer) - 1);
+    //     break;
+    //   case "2":
+    //     displayItemDetailMenu(parseInt(answer) - 1);
+    //     break;
+    //   case "3":
+    //     displayItemDetailMenu(parseInt(answer) - 1);
+    //     break;
+    //   case "4":
+    //       displayMainMenu();
+    //     break;
+    //   default:
+    //     console.log('Invalid option!');
+    //     displayShopMenu();
+    // }
   })
 }
 
