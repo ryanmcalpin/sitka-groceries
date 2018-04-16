@@ -138,12 +138,23 @@ var displayCart = function (sorted) {
 }
 
 var sortCartItems = function (type) {
-  var sortedCart = groceryItems.sort(compareNames);
+  var sortedCart = false;
+  if (type == "name") {
+    sortedCart = groceryItems.sort(compareNames);
+  } else if (type == "price") {
+    sortedCart = groceryItems.sort(compareSubtotals);
+  }
   displayCart(sortedCart);
 }
 
 var compareNames = function (a, b) {
-   return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+  return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+}
+
+var compareSubtotals = function (a, b) {
+  var aSubtotal = a.pricePerUnit * a.quantity;
+  var bSubtotal = b.pricePerUnit * b.quantity;
+  return aSubtotal < bSubtotal ? 1 : aSubtotal > bSubtotal ? -1 : 0;
 }
 
 var calculateTotalPrice = function () {
