@@ -70,21 +70,34 @@ var displayItemDetailMenu = function (i) {
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
 
   // refactor to to allow adding an inputed number of units
-  rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
-    switch (answer) {
-      case "1":
-        console.log(i);
-        incrementItem(i);
-        displayItemDetailMenu(i);
-        break;
-      case "2":
-        displayShopMenu();
-        break;
-      default:
-        console.log('Invalid option!');
-        displayItemDetailMenu(i);
+  rl.question('Enter the number of ' + item.unitPlural + ' you would like to add, or enter \"b\" to go back.\n', (answer) => {
+    var answerInt = parseInt(answer);
+    if (answer == "b") {
+      displayMainMenu();
+    } else if (!isNaN(parseInt(answer)) && answerInt > 0) {
+      incrementItem(i, answerInt);
+      displayItemDetailMenu(i);
+    } else {
+      console.log('Invalid option!');
+      displayItemDetailMenu(i);
     }
-  })
+  });
+
+  // rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
+  //   switch (answer) {
+  //     case "1":
+  //       console.log(i);
+  //       incrementItem(i);
+  //       displayItemDetailMenu(i);
+  //       break;
+  //     case "2":
+  //       displayShopMenu();
+  //       break;
+  //     default:
+  //       console.log('Invalid option!');
+  //       displayItemDetailMenu(i);
+  //   }
+  // })
 }
 
 var displayCart = function () {
@@ -158,10 +171,13 @@ var removeItemQuery = function () {
 }
 
 var removeItem = function (question, items) {
-  console.log(items.length);
   rl.question(question, (answer) => {
-    if ((parseInt(answer) - 1) == items.length) {
+    var answerInt = parseInt(answer);
+    if (answerInt == items.length + 1) {
       displayCart();
+    } else if (answerInt > items.length + 1) {
+      console.log('Invalid option.');
+      removeItem(question, items);
     } else {
       var item = groceryItems[items[parseInt(answer)-1].index];
       item.quantity -= 1;
@@ -171,9 +187,9 @@ var removeItem = function (question, items) {
   });
 }
 
-var incrementItem = function (i) {
+var incrementItem = function (i, amount) {
   var item = groceryItems[i];
-  groceryItems[i].quantity += 1;
+  groceryItems[i].quantity += amount;
   console.log('1 ' + item.unitSingular + ' of ' + item.name + ' added to cart.');
 }
 
@@ -228,7 +244,7 @@ var displayCashMenu = function (total) {
     if (answer == "b") {
       displayCheckoutMenu(total);
     } else if (isNaN(cashPaid) || cashPaid <= 0 || answer.split(".").length > 1 && answer.split(".")[1].length > 2) {
-      console.log('Invalid option!');
+      console.log('Invalid option.');
       displayCashMenu(total);
     } else {
       var balance = (total - cashPaid).toFixed(2);
