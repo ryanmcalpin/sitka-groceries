@@ -227,15 +227,17 @@ var displayCheckoutMenu = function (total) {
 
 var displayCashMenu = function (total) {
   rl.question('Enter dollar amount or \"b\" to go back.\n', (answer) => {
-    amount = parseInt(answer)
-    console.log(typeof amount + " : " + amount);
+    cashPaid = parseInt(answer);
     if (answer == "b") {
       displayCheckoutMenu(total);
-    } else if (isNaN(amount) || amount <= 0) {
+    } else if (isNaN(cashPaid) || cashPaid <= 0) {
       console.log('Invalid option!');
       displayCashMenu(total);
     } else {
-      console.log('math happens');
+      var balance = total - cashPaid;
+      if (balance < 0) {
+        console.log('Your change is $' + (balance * -1).toFixed(2) + '.');
+      }
     }
   });
 }
