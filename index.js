@@ -19,7 +19,7 @@ const rl = readline.createInterface({
 
 var displayMainMenu = function () {
   var totalItems = getTotalItemCount();
-  rl.question('Choose an option below.\n1) Shop\n2) View cart (' + totalItems + ')\n3) Checkout\n4) Exit\n', (answer) => {
+  rl.question('Choose an option below.\n1) Shop\n2) View cart (' + totalItems + ')\n3) Exit\n', (answer) => {
     switch(answer) {
       case "1":
         displayShopMenu();
@@ -28,9 +28,6 @@ var displayMainMenu = function () {
         displayCart();
         break;
       case "3":
-        displayCheckoutMenu();
-        break;
-      case "4":
         console.log('Goodbye!');
         rl.close();
         break;
@@ -75,6 +72,8 @@ var displayItemDetailMenu = function (i) {
 
   console.log(item.name + '\n$' + item.pricePerUnit + ' / ' + item.unitSingular);
   console.log('You currently have ' + item.quantity + ' ' + unitProper + ' of ' + item.name + ' in your cart.');
+
+  // refactor to to allow adding an inputed number of units
   rl.question('Would you like to add ' + another + ' ' + item.unitSingular + ' of ' + item.name + ' to your cart?\n1) Add ' + item.unitSingular + ' to cart\n2) Go back\n', (answer) => {
     switch (answer) {
       case "1":
@@ -115,26 +114,29 @@ var displayCart = function () {
     priceDisplay.slice(-2, -1) == '.' ? priceDisplay += '0' : null;
 
     console.log('Total: $' + priceDisplay);
-    rl.question('What would you like to do?\n1) Sort by name\n2) Sort by subtotal price\n3) Remove a single item unit\n4) Clear cart\n5) Go back\n', (answer) => {
+    rl.question('What would you like to do?\n1) Checkout\n2) Sort by name\n3) Sort by subtotal price\n4) Remove a single item unit\n5) Clear cart\n6) Go back\n', (answer) => {
       switch (answer) {
         case "1":
-          console.log("sort!");
-          displayCart();
+          displayCheckoutMenu();
           break;
         case "2":
           console.log("sort!");
           displayCart();
           break;
         case "3":
-          removeItemQuery();
+          console.log("sort!");
+          displayCart();
           break;
         case "4":
+          removeItemQuery();
+          break;
+        case "5":
           groceryItems.forEach((item, i) => {
             item.quantity = 0;
           });
           displayCart();
           break;
-        case "5":
+        case "6":
           displayMainMenu();
           break;
         default:
