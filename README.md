@@ -16,7 +16,8 @@ I chose Node and npm for an easy setup. I chose the 'readline' package for easy 
 * Needs a global balance variable for when a user pays a partial amount of total.
 * Could have more realistic credit/debit card input.
 * Allow removing custom amount of units from cart.
+* Make "b" the standard option for going back.
 
 ## Legal
-Copyright (c) 2017 Copyright Ryan McAlpin All Rights Reserved.<br/>
+Copyright (c) 2018 Copyright Ryan McAlpin All Rights Reserved.<br/>
 This application is licensed under the MIT license.
