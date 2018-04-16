@@ -55,24 +55,6 @@ var displayShopMenu = function () {
       console.log('Invalid option!');
       displayShopMenu();
     }
-
-    // switch (answer) {
-    //   case "1":
-    //     displayItemDetailMenu(parseInt(answer) - 1);
-    //     break;
-    //   case "2":
-    //     displayItemDetailMenu(parseInt(answer) - 1);
-    //     break;
-    //   case "3":
-    //     displayItemDetailMenu(parseInt(answer) - 1);
-    //     break;
-    //   case "4":
-    //       displayMainMenu();
-    //     break;
-    //   default:
-    //     console.log('Invalid option!');
-    //     displayShopMenu();
-    // }
   })
 }
 
