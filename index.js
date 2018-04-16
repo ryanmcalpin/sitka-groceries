@@ -117,7 +117,7 @@ var displayCart = function () {
     rl.question('What would you like to do?\n1) Checkout\n2) Sort by name\n3) Sort by subtotal price\n4) Remove a single item unit\n5) Clear cart\n6) Go back\n', (answer) => {
       switch (answer) {
         case "1":
-          displayCheckoutMenu();
+          displayCheckoutMenu(totalPriceFormatted);
           break;
         case "2":
           console.log("sort!");
@@ -131,9 +131,7 @@ var displayCart = function () {
           removeItemQuery();
           break;
         case "5":
-          groceryItems.forEach((item, i) => {
-            item.quantity = 0;
-          });
+          removeAllItems();
           displayCart();
           break;
         case "6":
@@ -202,8 +200,41 @@ var getUnitProper = function (i) {
   return unitProper;
 }
 
-var displayCheckoutMenu = function () {
-  console.log('checkout works!');
+var removeAllItems = function () {
+  groceryItems.forEach((item, i) => {
+    item.quantity = 0;
+  });
+}
+
+var displayCheckoutMenu = function (total) {
+  console.log('Your total is $' + total + '.');
+  rl.question('How would you like to pay?\n1) Cash\n2) Credit/debit card\n3) Go back\n', (answer) => {
+    switch (answer) {
+      case "1":
+        displayCashMenu(total);
+        break;
+      case "2":
+        displayCardMenu(total);
+        break;
+      case "3":
+        displayCart();
+        break;
+      default:
+        displayCheckoutMenu(total);
+    }
+  });
+}
+
+var displayCashMenu = function (total) {
+  rl.question('Enter cash amount.\n', (answer) => {
+
+  });
+}
+
+var displayCardMenu = function (total) {
+  console.log('Thank you! Your card has been charged $' + total + '.');
+  removeAllItems();
+  displayMainMenu();
 }
 
 
