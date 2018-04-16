@@ -226,8 +226,17 @@ var displayCheckoutMenu = function (total) {
 }
 
 var displayCashMenu = function (total) {
-  rl.question('Enter cash amount.\n', (answer) => {
-
+  rl.question('Enter dollar amount or \"b\" to go back.\n', (answer) => {
+    amount = parseInt(answer)
+    console.log(typeof amount + " : " + amount);
+    if (answer == "b") {
+      displayCheckoutMenu(total);
+    } else if (isNaN(amount) || amount <= 0) {
+      console.log('Invalid option!');
+      displayCashMenu(total);
+    } else {
+      console.log('math happens');
+    }
   });
 }
 
